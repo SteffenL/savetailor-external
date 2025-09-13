@@ -14,6 +14,7 @@ Environment variables can be set before running scripts:
 | `CMAKE_BUILD_TYPE`         | `Debug` or `Release` | Any     |
 | `GCLOUD_BUCKET`            | gcloud bucket URI    | Any     |
 | `GCLOUD_CREDENTIAL_BASE64` | (secret)             | Any     |
+| `INSTALL_DIR`              |                      | Any     |
 | `VCVARS_ARCH`              | `x64`                | Windows |
 | `VCVARS_VERSION`           | `14.3`               | Windows |
 
