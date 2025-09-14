@@ -382,8 +382,7 @@ TARGETS = (
                "-DwxUSE_WEBREQUEST=OFF",
                "-DwxUSE_WXHTML_HELP=OFF",
                "-DwxUSE_XTEST=OFF",
-               "-DwxUSE_ZIPSTREAM=OFF",
-               "-DwxUSE_ZLIB=builtin", # Use built-in to work around undefined references to zlib functions when attempting to use it as a shared library
+               "-DwxUSE_ZIPSTREAM=OFF"
            )),
     Target(name="steamworks-sdk",
            version="1.59",
