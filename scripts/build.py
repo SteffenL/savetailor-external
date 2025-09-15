@@ -361,6 +361,7 @@ TARGETS = (
                "-DwxUSE_LIBNOTIFY=OFF",
                "-DwxUSE_LIBSDL=OFF",
                "-DwxUSE_LIBTIFF=OFF",
+               "-DwxUSE_LIBWEBP=OFF",
                "-DwxUSE_MEDIACTRL=OFF",
                "-DwxUSE_MS_HTML_HELP=OFF",
                "-DwxUSE_DIALUP_MANAGER=OFF",
