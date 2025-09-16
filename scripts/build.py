@@ -246,6 +246,7 @@ def configure(target: Target):
         "-DCMAKE_SHARED_LINKER_FLAGS=" + ";".join(link_options),
         "-DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=TRUE",
         "-DZLIB_USE_STATIC_LIBS=" + to_cmake_option_value(not should_build_shared_libs()),
+        *(["-DCMAKE_INSTALL_RPATH=@loader_path"] if platform.system() == "Darwin" else ["-DCMAKE_INSTALL_RPATH=$ORIGIN"] if platform.system() == "Linux" else []),
         *target.configure_options
     ))
     create_empty_file(configure_ok_file_path)
