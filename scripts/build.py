@@ -15,6 +15,7 @@ from google.cloud import storage
 import patch_ng
 from py7zr import unpack_7zarchive
 
+
 @dataclass
 class Target:
     name: str
@@ -76,9 +77,11 @@ def to_cmake_option_value(b: bool):
 
 ROOT_DIR = os.getcwd()
 BUILD_CONFIG = os.getenv("CMAKE_BUILD_TYPE", "Release")
-BUILD_ROOT_DIR = os.path.join(ROOT_DIR, "build", "shared" if should_build_shared_libs() else "static", BUILD_CONFIG)
+BUILD_ROOT_DIR = os.path.join(
+    ROOT_DIR, "build", "shared" if should_build_shared_libs() else "static", BUILD_CONFIG)
 DOWNLOAD_ROOT_DIR = os.path.join(ROOT_DIR, "download")
-INSTALL_ROOT_DIR = os.getenv("INSTALL_DIR", os.path.join(ROOT_DIR, "install", "shared" if should_build_shared_libs() else "static", BUILD_CONFIG))
+INSTALL_ROOT_DIR = os.getenv("INSTALL_DIR", os.path.join(
+    ROOT_DIR, "install", "shared" if should_build_shared_libs() else "static", BUILD_CONFIG))
 PATCH_ROOT_DIR = os.path.join(ROOT_DIR, "patch")
 SOURCE_ROOT_DIR = os.path.join(ROOT_DIR, "source")
 
@@ -236,17 +239,22 @@ def configure(target: Target):
         build_dir,
         "-S",
         source_dir,
-        "-DBoost_USE_STATIC_LIBS=" + to_cmake_option_value(not should_build_shared_libs()),
-        "-DBUILD_SHARED_LIBS=" + to_cmake_option_value(should_build_shared_libs()),
+        "-DBoost_USE_STATIC_LIBS=" +
+        to_cmake_option_value(not should_build_shared_libs()),
+        "-DBUILD_SHARED_LIBS=" +
+        to_cmake_option_value(should_build_shared_libs()),
         "-DCMAKE_BUILD_TYPE=" + BUILD_CONFIG,
         "-DCMAKE_EXE_LINKER_FLAGS=" + ";".join(link_options),
         "-DCMAKE_FIND_PACKAGE_PREFER_CONFIG=TRUE",
         "-DCMAKE_POLICY_VERSION_MINIMUM=" + cmake_policy_version,
+        "-DCMAKE_POSITION_INDEPENDENT_CODE=TRUE",
         "-DCMAKE_PREFIX_PATH=" + install_dir,
         "-DCMAKE_SHARED_LINKER_FLAGS=" + ";".join(link_options),
         "-DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=TRUE",
-        "-DZLIB_USE_STATIC_LIBS=" + to_cmake_option_value(not should_build_shared_libs()),
-        *(["-DCMAKE_INSTALL_RPATH=@loader_path"] if platform.system() == "Darwin" else ["-DCMAKE_INSTALL_RPATH=$ORIGIN"] if platform.system() == "Linux" else []),
+        "-DZLIB_USE_STATIC_LIBS=" +
+        to_cmake_option_value(not should_build_shared_libs()),
+        *(["-DCMAKE_INSTALL_RPATH=@loader_path"] if platform.system() == "Darwin" else [
+          "-DCMAKE_INSTALL_RPATH=$ORIGIN"] if platform.system() == "Linux" else []),
         *target.configure_options
     ))
     create_empty_file(configure_ok_file_path)
@@ -344,7 +352,8 @@ TARGETS = (
            source_subdir="wxWidgets-{version}",
            url="https://github.com/wxWidgets/wxWidgets/releases/download/v{version}/{filename}",
            configure_options=(
-               "-DwxBUILD_SHARED=" + to_cmake_option_value(should_build_shared_libs()),
+               "-DwxBUILD_SHARED=" +
+                   to_cmake_option_value(should_build_shared_libs()),
                "-DwxUSE_ARCHIVE_STREAMS=OFF",
                "-DwxUSE_BASE64=OFF",
                "-DwxUSE_DEBUGREPORT=OFF",
