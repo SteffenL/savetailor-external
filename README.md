@@ -16,9 +16,9 @@ Environment variables can be set before running scripts:
 | `GCLOUD_CREDENTIAL_BASE64` | (secret)             | Any     |
 | `INSTALL_DIR`              |                      | Any     |
 | `VCVARS_ARCH`              | `x64`                | Windows |
-| `VCVARS_VERSION`           | `14.3`               | Windows |
+| `VCVARS_VERSION`           | `x.y`                | Windows |
 
-Crate A virtual environment for Python:
+Create a virtual environment for Python:
 
 ```
 python -m venv .venv
