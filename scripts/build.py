@@ -230,6 +230,8 @@ def configure(target: Target):
     print("Configuring {} {}...".format(target.name, target.version))
     install_dir = INSTALL_ROOT_DIR
     link_options = []
+    if platform.system() != "Windows":
+        link_options.append("-static-libstdc++")
     cmake_policy_version = "3.24"
     subprocess.check_call((
         "cmake",
