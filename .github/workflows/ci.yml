@@ -4,6 +4,9 @@ on:
     branches:
       - '**'
   pull_request:
+defaults:
+  run:
+    shell: bash
 env:
   GCLOUD_CREDENTIAL_BASE64: ${{ secrets.GCLOUD_CREDENTIAL_BASE64 }}
   # Remove "-dev" only in a release branch.
@@ -43,17 +46,15 @@ jobs:
           export BUILD_SHARED_LIBS=$(echo '${{ matrix.library-type }}' | sed 's/static/OFF/' | sed 's/shared/ON/')
           export INSTALL_DIR="${PWD}/install"
           python3 scripts/devenv.py python3 scripts/build.py
-        shell: bash
       - name: Create package
         run: |
           mkdir dist
           echo "${{ github.sha }}" > install/version.txt
           os=$(echo '${{ runner.os }}' | tr '[:upper:]' '[:lower:]')
-          arch=$((if [[ "${OSTYPE}" =~ cygwin|msys ]]; then echo "${PROCESSOR_ARCHITECTURE}"; else uname --machine; fi) | tr '[:upper:]' '[:lower:]')
+          arch=$((if [[ "${OSTYPE}" =~ cygwin|msys ]]; then echo "${PROCESSOR_ARCHITECTURE}"; else uname -m; fi) | tr '[:upper:]' '[:lower:]')
           build_type=$(echo '${{ matrix.build-type }}' | tr '[:upper:]' '[:lower:]')
           library_type="${{ matrix.library-type }}"
           (cd install && tar --create --xz "--file=../dist/${ASSET_NAME_PREFIX}${RELEASE_VERSION}-${os}.${arch}.${library_type}.${build_type}.tar.xz" *)
-        shell: bash
       - uses: actions/upload-artifact@v4
         if: github.event_name == 'push'
         with:
@@ -79,17 +80,15 @@ jobs:
           export BUILD_SHARED_LIBS=$(echo '${{ matrix.library-type }}' | sed 's/static/OFF/' | sed 's/shared/ON/')
           export INSTALL_DIR="${PWD}/install"
           python3 scripts/devenv.py python3 scripts/build.py
-        shell: bash
       - name: Create package
         run: |
           mkdir dist
           echo "${{ github.sha }}" > install/version.txt
           os=$(echo '${{ runner.os }}' | tr '[:upper:]' '[:lower:]')
-          arch=$((if [[ "${OSTYPE}" =~ cygwin|msys ]]; then echo "${PROCESSOR_ARCHITECTURE}"; else uname --machine; fi) | tr '[:upper:]' '[:lower:]')
+          arch=$((if [[ "${OSTYPE}" =~ cygwin|msys ]]; then echo "${PROCESSOR_ARCHITECTURE}"; else uname -m; fi) | tr '[:upper:]' '[:lower:]')
           build_type=$(echo '${{ matrix.build-type }}' | tr '[:upper:]' '[:lower:]')
           library_type="${{ matrix.library-type }}"
           (cd install && tar --create --xz "--file=../dist/${ASSET_NAME_PREFIX}${RELEASE_VERSION}-${os}.${arch}.${library_type}.${build_type}.tar.xz" *)
-        shell: bash
       - uses: actions/upload-artifact@v4
         if: github.event_name == 'push'
         with:
@@ -109,7 +108,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
-          pattern: dist*
+          pattern: dist-*
           path: dist
           merge-multiple: true
       - name: List artifacts
@@ -118,4 +117,3 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: gh release create --draft --target "${{ github.sha }}" "v${RELEASE_VERSION}" dist/*
-        shell: bash
