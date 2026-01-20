@@ -230,8 +230,10 @@ def configure(target: Target):
     print("Configuring {} {}...".format(target.name, target.version))
     install_dir = INSTALL_ROOT_DIR
     link_options = []
+    link_options_release = []
     if platform.system() != "Windows":
         link_options.append("-static-libstdc++")
+        link_options_release.append("-s") # Strip
     cmake_policy_version = "3.24"
     subprocess.check_call((
         "cmake",
@@ -247,11 +249,13 @@ def configure(target: Target):
         to_cmake_option_value(should_build_shared_libs()),
         "-DCMAKE_BUILD_TYPE=" + BUILD_CONFIG,
         "-DCMAKE_EXE_LINKER_FLAGS=" + ";".join(link_options),
+        "-DCMAKE_EXE_LINKER_FLAGS_RELEASE=" + ";".join(link_options_release),
         "-DCMAKE_FIND_PACKAGE_PREFER_CONFIG=TRUE",
         "-DCMAKE_POLICY_VERSION_MINIMUM=" + cmake_policy_version,
         "-DCMAKE_POSITION_INDEPENDENT_CODE=TRUE",
         "-DCMAKE_PREFIX_PATH=" + install_dir,
         "-DCMAKE_SHARED_LINKER_FLAGS=" + ";".join(link_options),
+        "-DCMAKE_SHARED_LINKER_FLAGS_RELEASE=" + ";".join(link_options_release),
         "-DPKG_CONFIG_USE_CMAKE_PREFIX_PATH=TRUE",
         "-DZLIB_USE_STATIC_LIBS=" +
         to_cmake_option_value(not should_build_shared_libs()),
