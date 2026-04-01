@@ -161,9 +161,6 @@ def download(target: Target):
         return target.download(target)
     url = expand_target_vars(target, target.url)
     file_path = get_download_file_path(target)
-    download_ok_file_path = file_path + ".ok"
-    if os.path.exists(download_ok_file_path):
-        return
     if not os.path.exists(file_path):
         print("Downloading {} {} from {}...".format(
             target.name, target.version, url))
@@ -177,7 +174,6 @@ def download(target: Target):
     digest = sha256sum_file(file_path)
     if (digest != target.sha256):
         raise Exception("Verification failed: {}".format(file_path))
-    create_empty_file(download_ok_file_path)
 
 
 def source(target: Target):
