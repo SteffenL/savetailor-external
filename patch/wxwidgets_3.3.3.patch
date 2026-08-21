@@ -1,0 +1,34 @@
+diff --git a/build/cmake/install.cmake b/build/cmake/install.cmake
+index 0ce80419e7..86652fbf9f 100644
+--- a/build/cmake/install.cmake
++++ b/build/cmake/install.cmake
+@@ -70,9 +70,9 @@ else()
+     set(CONFIG_DIR "\\\$ENV{DESTDIR}\\\${CMAKE_INSTALL_PREFIX}")
+     set(CONFIG_SRC "${CONFIG_DIR}/${library_dir}/wx/config/${wxBUILD_FILE_ID}")
+     set(CONFIG_DST "${CONFIG_DIR}/${runtime_dir}/wx-config")
+-    wx_install_symlink(${CONFIG_SRC} ${CONFIG_DST})
++    #wx_install_symlink(${CONFIG_SRC} ${CONFIG_DST})
+ 
+-    list(APPEND WX_EXTRA_UNINSTALL_FILES "\"${CMAKE_INSTALL_PREFIX}/${runtime_dir}/wx-config\"")
++    #list(APPEND WX_EXTRA_UNINSTALL_FILES "\"${CMAKE_INSTALL_PREFIX}/${runtime_dir}/wx-config\"")
+ endif()
+ 
+ wx_get_install_dir(library)
+diff --git a/build/cmake/utils/CMakeLists.txt b/build/cmake/utils/CMakeLists.txt
+index dd2d82beb0..74ad7e331a 100644
+--- a/build/cmake/utils/CMakeLists.txt
++++ b/build/cmake/utils/CMakeLists.txt
+@@ -41,10 +41,10 @@ if(wxUSE_XRC)
+         set(WXRC_DIR "\\\$ENV{DESTDIR}\\\${CMAKE_INSTALL_PREFIX}")
+         set(WXRC_SRC "${WXRC_DIR}/${runtime_dir}/${wxrc_output_name}${EXE_SUFFIX}")
+         set(WXRC_DST "${WXRC_DIR}/${runtime_dir}/wxrc${EXE_SUFFIX}")
+-        wx_install_symlink(${WXRC_SRC} ${WXRC_DST})
++        #wx_install_symlink(${WXRC_SRC} ${WXRC_DST})
+ 
+-        list(APPEND WX_EXTRA_UNINSTALL_FILES "\"${CMAKE_INSTALL_PREFIX}/${runtime_dir}/wxrc${EXE_SUFFIX}\"")
+-        set(WX_EXTRA_UNINSTALL_FILES ${WX_EXTRA_UNINSTALL_FILES} PARENT_SCOPE)
++        #list(APPEND WX_EXTRA_UNINSTALL_FILES "\"${CMAKE_INSTALL_PREFIX}/${runtime_dir}/wxrc${EXE_SUFFIX}\"")
++        #set(WX_EXTRA_UNINSTALL_FILES ${WX_EXTRA_UNINSTALL_FILES} PARENT_SCOPE)
+     endif()
+ endif()
+ 
