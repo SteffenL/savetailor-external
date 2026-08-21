@@ -8,6 +8,8 @@ defaults:
   run:
     shell: bash
 env:
+  # Stay on old Node.js version
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
   GCLOUD_CREDENTIAL_BASE64: ${{ secrets.GCLOUD_CREDENTIAL_BASE64 }}
   # Remove "-dev" only in a release branch.
   RELEASE_VERSION: 0.4.0-dev
