@@ -345,7 +345,6 @@ TARGETS = (
                "-DwxBUILD_SHARED=" +
                    to_cmake_option_value(should_build_shared_libs()),
                "-DwxUSE_ARCHIVE_STREAMS=OFF",
-               "-DwxUSE_BASE64=OFF",
                "-DwxUSE_DEBUGREPORT=OFF",
                "-DwxUSE_FS_ARCHIVE=OFF",
                "-DwxUSE_FS_INET=OFF",
@@ -379,8 +378,6 @@ TARGETS = (
                "-DwxUSE_STC=OFF",
                "-DwxUSE_TARSTREAM=OFF",
                "-DwxUSE_URL=OFF",
-               "-DwxUSE_WEBREQUEST_CURL=OFF",
-               "-DwxUSE_WEBREQUEST=OFF",
                "-DwxUSE_WXHTML_HELP=OFF",
                "-DwxUSE_XTEST=OFF",
                "-DwxUSE_ZIPSTREAM=OFF"
