@@ -58,7 +58,7 @@ jobs:
           library_type="${{ matrix.library-type }}"
           (cd install && tar --create --xz "--file=../dist/${ASSET_NAME_PREFIX}${RELEASE_VERSION}-${os}.${arch}.${library_type}.${build_type}.tar.xz" *)
       - uses: actions/upload-artifact@v4
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && matrix.library-type == 'shared'
         with:
           name: dist-${{ runner.os }}-${{ matrix.build-type }}-${{ matrix.library-type }}
           path: dist/*
@@ -92,7 +92,7 @@ jobs:
           library_type="${{ matrix.library-type }}"
           (cd install && tar --create --xz "--file=../dist/${ASSET_NAME_PREFIX}${RELEASE_VERSION}-${os}.${arch}.${library_type}.${build_type}.tar.xz" *)
       - uses: actions/upload-artifact@v4
-        if: github.event_name == 'push'
+        if: github.event_name == 'push' && matrix.library-type == 'shared'
         with:
           name: dist-${{ runner.os }}-${{ matrix.build-type }}-${{ matrix.library-type }}
           path: dist/*
