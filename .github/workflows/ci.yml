@@ -27,6 +27,8 @@ jobs:
         build-type: [Debug, Release]
         library-type: [static, shared]
     steps:
+      - name: Install dependencies
+        run: apt-get update && apt-get install -y libcurl4-openssl-dev libexpat1-dev libpng-dev zlib1g-dev
       - name: Install Node.js 20 for glibc 2.17
         run: |
           apt-get install -y curl
